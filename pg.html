@@ -19,6 +19,30 @@
   gtag('config', 'G-3MQEG5JHF9');
 </script>
 
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFP-NFhxvj3J_ZFNODxVyFN3n8wQZ3J9o",
+    authDomain: "my-website-b3c4a.firebaseapp.com",
+    projectId: "my-website-b3c4a",
+    storageBucket: "my-website-b3c4a.firebasestorage.app",
+    messagingSenderId: "1080877930037",
+    appId: "1:1080877930037:web:a82bac215dc486803d037c",
+    measurementId: "G-8YQL48QGRL"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+
 </head>
 <body>
 <!-- start header -->
@@ -55,10 +79,49 @@
         <li><h4><a href="docs/ta_econometrics_II_book.pdf" target="_blank">CERGE-EI: Econometrics II</a></h4> Prof. <a href="https://sites.google.com/view/anna-houstecka/home" target="_blank">Anna Houštecká</a>.<br>
         <li><h4><a href="docs/ta_statistics_book.pdf" target="_blank">CERGE-EI: Statistics</a></h4> Prof. <a href="https://www.paolozacchia.com/" target="_blank">Paolo Zacchia</a>.</li>
         <li><h4><a href="docs/ta_dme_5_ds.pdf" target="_blank">CERGE-EI: Time Series</a></h4> Prof. <a href="https://pages.nes.ru/sanatoly/" target="_blank">Stanislav Anatolyev</a>.</li>
+      </ul>
+      <h2>upload</h2>
       <ul>
+        <input type="file" id="pdfInput" accept="application/pdf">
+        <button onclick="uploadPDF()">Upload</button>
+
+        <script>
+          function uploadPDF() {
+            const file = document.getElementById('pdfInput').files[0];
+            if (!file) {
+              alert("Please select a PDF file.");
+              return;
+            }
+
+            if (file.type !== "application/pdf") {
+              alert("Only PDF files are allowed.");
+              return;
+            }
+
+            const storageRef = firebase.storage().ref();
+            const pdfRef = storageRef.child('uploads/' + file.name);
+
+            pdfRef.put(file).then(snapshot => {
+              alert("Upload successful!");
+              snapshot.ref.getDownloadURL().then(url => {
+                console.log("File available at:", url);
+                // Optionally display the link:
+                const link = document.createElement("a");
+                link.href = url;
+                link.textContent = "View uploaded PDF";
+                document.body.appendChild(link);
+              });
+            }).catch(error => {
+              console.error("Upload failed:", error);
+              alert("Upload failed: " + error.message);
+            });
+          }
+          </script>
+      </ul>  
     </div>
   </div>
-  
+
+
   <!-- end content -->
   
   <!-- start sidebar -->
@@ -83,6 +146,8 @@
   <div style="clear: both;">&nbsp;</div>
 </div>
 <!-- end page -->
+
+
 
 </body>
 </html>
