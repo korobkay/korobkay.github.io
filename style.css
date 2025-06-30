@@ -13,12 +13,17 @@ body {
     background-size: 100% ;
     background-repeat: no-repeat;
     
-	font-family: Andale Mono, sans-serif;
+	font-family: 'JetBrains Mono', monospace;
 	font-size: 14px;
 	color: #0c0019;
 
 }
 
+/*
+body {
+  font-family: 'Inter', sans-serif;
+}
+*/
 
 @media screen and (max-width: 640px){
  body {
@@ -31,7 +36,7 @@ body {
 
 h5 {
 	margin: 0;
-	font-family: Andale Mono, sans-serif;
+	font-family: 'JetBrains Mono', monospace;
 	font-weight: normal;
 	color: #2f4f4f; 
  
@@ -40,7 +45,7 @@ h5 {
 h1, h2, h3 {
 	margin: 0;
 /*	text-transform: lowercase;*/
-	font-family: Andale Mono, sans-serif;
+	font-family: 'JetBrains Mono', monospace;
 	font-weight: normal;
 	color: #2f4f4f; 
 
@@ -124,7 +129,7 @@ img.right {
 	/*float: left;*/
 	font-size: 34px;
 	color: #2f4f4f;
-	font-family: Andale Mono, sans-serif;
+	font-family: 'JetBrains Mono', monospace;
 }
 
 #logo h1 sup {
@@ -142,7 +147,7 @@ img.right {
 	margin: 0;
 	padding: 10px 0 0 10px;
 	text-transform: uppercase;
-	font-family: Andale Mono, sans-serif;
+	font-family: 'JetBrains Mono', monospace;
 	font-size: 14px;
 		color: #A0A0A5;
 	/*	color: #f5f5f5;*/ /*white smoke*/
