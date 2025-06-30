@@ -19,54 +19,6 @@
   gtag('config', 'G-3MQEG5JHF9');
 </script>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyBFP-NFhxvj3J_ZFNODxVyFN3n8wQZ3J9o",
-    authDomain: "my-website-b3c4a.firebaseapp.com",
-    projectId: "my-website-b3c4a",
-    storageBucket: "my-website-b3c4a.firebasestorage.app",
-    messagingSenderId: "1080877930037",
-    appId: "1:1080877930037:web:a82bac215dc486803d037c",
-    measurementId: "G-8YQL48QGRL"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-
-  window.uploadPDF = async function () {
-    const file = document.getElementById("pdfInput").files[0];
-    if (!file || file.type !== "application/pdf") {
-      alert("Please select a PDF file.");
-      return;
-    }
-
-    const storageRef = ref(storage, 'uploads/' + file.name);
-    try {
-      const snapshot = await uploadBytes(storageRef, file);
-      alert("Upload successful!");
-
-      const url = await getDownloadURL(snapshot.ref);
-      const link = document.createElement("a");
-      link.href = url;
-      link.textContent = "View uploaded PDF";
-      document.body.appendChild(link);
-    } catch (err) {
-      console.error("Upload failed:", err);
-      alert("Upload failed: " + err.message);
-    }
-  }
-
-</script>
-
 </head>
 <body>
 <!-- start header -->
@@ -108,39 +60,6 @@
       <ul>
         <input type="file" id="pdfInput" accept="application/pdf">
         <button onclick="uploadPDF()">Upload</button>
-
-        <script>
-          function uploadPDF() {
-            const file = document.getElementById('pdfInput').files[0];
-            if (!file) {
-              alert("Please select a PDF file.");
-              return;
-            }
-
-            if (file.type !== "application/pdf") {
-              alert("Only PDF files are allowed.");
-              return;
-            }
-
-            const storageRef = firebase.storage().ref();
-            const pdfRef = storageRef.child('uploads/' + file.name);
-
-            pdfRef.put(file).then(snapshot => {
-              alert("Upload successful!");
-              snapshot.ref.getDownloadURL().then(url => {
-                console.log("File available at:", url);
-                // Optionally display the link:
-                const link = document.createElement("a");
-                link.href = url;
-                link.textContent = "View uploaded PDF";
-                document.body.appendChild(link);
-              });
-            }).catch(error => {
-              console.error("Upload failed:", error);
-              alert("Upload failed: " + error.message);
-            });
-          }
-          </script>
       </ul>  
     </div>
   </div>
@@ -171,7 +90,70 @@
 </div>
 <!-- end page -->
 
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBFP-NFhxvj3J_ZFNODxVyFN3n8wQZ3J9o",
+    authDomain: "my-website-b3c4a.firebaseapp.com",
+    projectId: "my-website-b3c4a",
+    storageBucket: "my-website-b3c4a.firebasestorage.app",
+    messagingSenderId: "1080877930037",
+    appId: "1:1080877930037:web:a82bac215dc486803d037c",
+    measurementId: "G-8YQL48QGRL"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const storage = getStorage(app);
+
+  window.uploadPDF = async function () {
+  const file = document.getElementById('pdfInput').files[0];
+  console.log("Selected file:", file);
+
+  if (!file || !file.name.toLowerCase().endsWith('.pdf')) {
+    alert("Please select a PDF file.");
+    return;
+  }
+
+  console.log("Starting upload...");
+
+  const pdfRef = ref(storage, 'uploads/' + file.name);
+
+  try {
+    console.log("Uploading to Firebase...");
+    console.log("Starting upload attempt at:", new Date().toLocaleTimeString());
+    const snapshot = await uploadBytes(pdfRef, file);
+    console.log("Finished upload at:", new Date().toLocaleTimeString());
+
+    console.log("Upload snapshot:", snapshot);
+
+    alert("+1 to your karma! Today you'll have a good day.");
+
+    const url = await getDownloadURL(snapshot.ref);
+    console.log("Download URL:", url);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.textContent = "View uploaded PDF";
+    link.target = "_blank";
+    document.body.appendChild(link);
+  } catch (error) {
+    console.error("Upload failed:", error);
+    alert("Upload failed: " + error.message);
+  }
+};
+
+
+</script>
 
 </body>
 </html>
