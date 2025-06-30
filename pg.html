@@ -56,7 +56,7 @@
       <ul>
         <li><h4><a href="docs/ta_econometrics_II_book.pdf" target="_blank">CERGE-EI: Econometrics II</a></h4> Prof. <a href="https://sites.google.com/view/anna-houstecka/home" target="_blank">Anna Houštecká</a>.
         Homework: <br>
-        <input type="file" id="pdfInput" accept="application/pdf"> <button onclick="uploadPDF()">Upload</button>
+        <input type="file" id="pdfInput" accept=".pdf,.zip"> <button onclick="uploadPDF()">Upload</button>
         <li><h4><a href="docs/ta_statistics_book.pdf" target="_blank">CERGE-EI: Statistics</a></h4> Prof. <a href="https://www.paolozacchia.com/" target="_blank">Paolo Zacchia</a>.</li>
         <li><h4><a href="docs/ta_dme_5_ds.pdf" target="_blank">CERGE-EI: Time Series</a></h4> Prof. <a href="https://pages.nes.ru/sanatoly/" target="_blank">Stanislav Anatolyev</a>.</li>
       </ul>
@@ -116,8 +116,12 @@
   const file = document.getElementById('pdfInput').files[0];
   console.log("Selected file:", file);
 
-  if (!file || !file.name.toLowerCase().endsWith('.pdf')) {
-    alert("Please select a PDF file.");
+  const allowedExtensions = ['.pdf', '.zip'];
+  const fileName = file.name.toLowerCase();
+  const isAllowed = allowedExtensions.some(ext => fileName.endsWith(ext));
+
+  if (!file || !isAllowed) {
+    alert("Please select a PDF or ZIP file.");
     return;
   }
 
@@ -134,15 +138,7 @@
     console.log("Upload snapshot:", snapshot);
 
     alert("Upload successful!");
-
-    const url = await getDownloadURL(snapshot.ref);
-    console.log("Download URL:", url);
-
-    const link = document.createElement("a");
-    link.href = url;
-    link.textContent = "View uploaded PDF";
-    link.target = "_blank";
-    document.body.appendChild(link);
+    
   } catch (error) {
     console.error("Upload failed:", error);
     alert("Upload failed: " + error.message);
