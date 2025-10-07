@@ -113,7 +113,7 @@ img.right {
 /* Header */
 
 #header {
-	width: 900px;
+	width: 800px;
 	height: 80px;
 	margin: 0 auto 20px auto;
 	padding-top: 10px;
@@ -189,7 +189,7 @@ img.right {
 /* Page */
 
 #page {
-	width: 800px;
+	width: 750px;
 	margin: 0 auto;
 	background: #f1f1f1;
 	border: 1px #f1f1f1 solid;
