@@ -204,6 +204,15 @@ img.right {
 	padding: 20px 20px;
 }
 
+/* Rounded corners for main content blocks */
+#page,
+#pagewide,
+.item .meta .more,
+.item .meta .comments,
+#menu a {
+    border-radius: 12px;   /* adjust e.g. 6px for subtle, 15px for more rounded */
+}
+
 /* Content */
 
 #content {
